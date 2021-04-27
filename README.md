@@ -1,4 +1,6 @@
 # :wave: The Basics of GitHub 
+Ingresando palabras en español por que el ingles es facil
+pablito
 
 ## 🤓 Course overview and learning outcomes 
 

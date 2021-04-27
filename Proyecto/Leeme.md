@@ -1,5 +1,7 @@
-#Integrantes
+# Integrantes
 
-Pablo Maya
-María Julia Espinoza
-Nahuel Bustos
+**Pablo Maya**
+
+**María Julia Espinoza**
+
+**Nahuel Bustos**

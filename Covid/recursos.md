@@ -8,9 +8,9 @@
 
 - https://www.yeggi.com/q/coronavirus/
 
--https://www.thingiverse.com/search?q=mascarillas&type=things&sort=relevant
+- https://www.thingiverse.com/search?q=mascarillas&type=things&sort=relevant
 
--https://www.myminifactory.com/es/search/?query=coronavirus
+- https://www.myminifactory.com/es/search/?query=coronavirus
 
 ## Modelos de impresión 3D - Máscaras y Soportes de Máscaras
 

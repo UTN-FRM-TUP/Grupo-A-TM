@@ -1,6 +1,7 @@
 # :wave: The Basics of GitHub 
 Ingresando palabras en español por que el ingles es facil
-pablito
+
+Segundo intento de subir un archivo desde Vcode pablito
 
 ## 🤓 Course overview and learning outcomes 
 

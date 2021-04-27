@@ -1,5 +1,8 @@
 # :wave: The Basics of GitHub 
+<<<<<<< HEAD
 Ingresando palabras en español por que el ingles es facil
+=======
+>>>>>>> parent of a33caee (probando)
 
 Segundo intento de subir un archivo desde Vcode pablito
 

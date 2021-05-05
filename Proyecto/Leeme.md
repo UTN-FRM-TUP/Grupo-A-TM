@@ -23,6 +23,6 @@ Nuestro marco está definido por las siguientes normativas:
 
 [Cálculo estimativo de vías y tiempos de evacuación](https://www.cso.go.cr/legislacion/notas_tecnicas_preventivas_insht/NTP%20436%20-%20Calculo%20estimativo%20de%20vias%20y%20tiempos%20de%20evacuacion.pdf)
 
-En base a esto planteamos el desarrollo de un software escrito en python que considere distintas entidades como personas, paredes, espacios libres o zonas con fuego y tiempos de demora en cada persona logra abandonar el piso. A través de estos tiempos logramos definir si la condición final de cada persona es ileso, herido o fallecido.
+En base a esto planteamos el desarrollo de un software escrito en python que considere distintas entidades como personas, paredes, espacios libres o zonas con fuego y tiempos de demora en que cada persona logra abandonar el piso. A través de estos tiempos logramos definir si la condición final de cada persona es ileso, herido o fallecido.
 
 Esperamos que esta aplicación sirva como punto de partida y complemento para el análisis de planes de evacuación y diseño de espacios en edificios.

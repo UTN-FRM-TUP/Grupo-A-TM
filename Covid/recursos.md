@@ -30,3 +30,16 @@
 
 - https://www.myminifactory.com/es/object/3d-print-mask-comfort-strap-covid-19-121711
 
+## Modelo de impresión 3D - Otros accesorios
+
+https://www.3dforprint.com/es/modelo3d/venturi-valvula-de-respirador/677
+
+https://copper3d.com/hconnector/
+
+https://www.thingiverse.com/thing:4237739
+
+https://www.thingiverse.com/thing:4269953
+
+
+
+

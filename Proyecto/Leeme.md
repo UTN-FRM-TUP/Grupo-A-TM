@@ -15,7 +15,7 @@
 El proyecto trata de una simulación de evacuación de un edificio mientras el mismo se incendia, esto sirve para obtener una visión más cercana a la realidad sobre el desempeño del plan de evacuación y la obtención de datos como cantidad de heridos, muertos e ilesos.
 Con lo cual podemos medir la efectividad del plan de evacuación.
 
-#Marco teórico
+# Marco teórico
 
 Nuestro marco está definido por las siguientes normativas:
 

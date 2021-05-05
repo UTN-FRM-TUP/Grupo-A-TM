@@ -8,9 +8,17 @@
 
 **Nahuel Bustos**
 
-# Tema
+## Tema
 
-Simulación de fuego en edificio
+**Simulación de fuego en edificio**
 
-El proyecto se trata de una simulación de evacuación de un edificio mientras el mismo se incendia, esto sirve para obtener datos como cantidad de heridos, muertos e ilesos.
+El proyecto trata de una simulación de evacuación de un edificio mientras el mismo se incendia, esto sirve para obtener una visión más cercana a la realidad sobre el desempeño del plan de evacuación y la obtención de datos como cantidad de heridos, muertos e ilesos.
 Con lo cual podemos medir la efectividad del plan de evacuación.
+
+#Marco teórico
+
+Nuestro marco está definido por las siguientes normativas:
+
+[Evacuación de edificios](https://www.insst.es/documents/94886/326853/ntp_046.pdf/b9d7dd31-9758-42a1-8c8c-55daa88295f2)
+
+[Cálculo estimativo de vías y tiempos de evacuación](https://www.cso.go.cr/legislacion/notas_tecnicas_preventivas_insht/NTP%20436%20-%20Calculo%20estimativo%20de%20vias%20y%20tiempos%20de%20evacuacion.pdf)

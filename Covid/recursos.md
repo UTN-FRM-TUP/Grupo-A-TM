@@ -32,13 +32,13 @@
 
 ## Modelo de impresión 3D - Otros accesorios
 
-https://www.3dforprint.com/es/modelo3d/venturi-valvula-de-respirador/677
+- https://www.3dforprint.com/es/modelo3d/venturi-valvula-de-respirador/677
 
-https://copper3d.com/hconnector/
+- https://copper3d.com/hconnector/
 
-https://www.thingiverse.com/thing:4237739
+- https://www.thingiverse.com/thing:4237739
 
-https://www.thingiverse.com/thing:4269953
+- https://www.thingiverse.com/thing:4269953
 
 
 

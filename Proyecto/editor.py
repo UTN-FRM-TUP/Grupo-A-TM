@@ -66,8 +66,8 @@ while True:
     # Mostramos el resultado
     pygame.display.flip()
 
-    np.savetxt('escenario.txt', gameState, delimiter=',')
+    # np.savetxt('escenario.txt', gameState, delimiter=',')
 
-    """ archivo = 'escenario.txt'
+    archivo = 'escenario.txt'
     with open(archivo, 'w') as f:
-        f.write(str(gameState)) """
+        f.write(str(gameState))

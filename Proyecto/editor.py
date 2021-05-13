@@ -19,11 +19,11 @@ nxC, nyC = 5, 5
 gameState = np.zeros((nxC,  nyC), dtype=int)
 
 # dimensiones de cada celda individual
-dimCW = 20
-dimCH = 20
+dimensionAltoCelda = 30
+dimensionAnchoCelda = 30
 
 
-while True:
+while True: 
 
     newGameState = np.copy(gameState)
 
@@ -36,9 +36,9 @@ while True:
 
         if sum(mouseClick) > 0:
             posX, posY = pygame.mouse.get_pos()
-            celX, celY = int(np.floor(posX / dimCW)), int(
-                np.floor(posY / dimCH))
-            newGameState[celX, celY] = not mouseClick[2]
+            celX, celY = int(np.trunc(posX / dimensionAnchoCelda)), int(
+                np.trunc(posY / dimensionAltoCelda))
+            newGameState[celX, celY] = 1
 
         if event.type == QUIT:
             pygame.quit()
@@ -48,10 +48,10 @@ while True:
         for x in range(0, nyC):
 
             # Calculamos el polígono que forma la celda.
-            poly = [((x) * dimCW, y * dimCH),
-                    ((x+1) * dimCW, y * dimCH),
-                    ((x+1) * dimCW, (y+1) * dimCH),
-                    ((x) * dimCW, (y+1) * dimCH)]
+            poly = [((x) * dimensionAnchoCelda, y * dimensionAltoCelda),
+                    ((x+1) * dimensionAnchoCelda, y * dimensionAltoCelda),
+                    ((x+1) * dimensionAnchoCelda, (y+1) * dimensionAltoCelda),
+                    ((x) * dimensionAnchoCelda, (y+1) * dimensionAltoCelda)]
 
             # Si es espacio pintamos un recuadro con borde gris
             if newGameState[x, y] == 0:
@@ -71,3 +71,5 @@ while True:
     archivo = 'escenario.txt'
     with open(archivo, 'w') as f:
         f.write(str(gameState))
+        
+

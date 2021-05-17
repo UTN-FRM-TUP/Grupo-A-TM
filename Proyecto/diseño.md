@@ -17,8 +17,8 @@ with open(archivo, 'r') as f:
     
      
 ## Clase Persona -> 
-solo se mueve de (Izq,Der,Arr,Aba), si llega al 5 sigue esa linea hasta la salida (6), ver el tema del movimiento??
-        tiene que evaluar si es 0 o 5 y elige 5 SIEMPRE.
+solo se mueve de (Izq,Der,Arr,Aba), si llega al "-" sigue esa linea hasta la salida (6), ver el tema del movimiento??
+        tiene que evaluar si es "." o "-" y elige "-" SIEMPRE.
         Si tiene fuego al lado no se mueve en esa posición. 
         Si tiene una persona en esa posición se mueve a otro lado.
         Si la puerta esta cerrada no puede pasarla.

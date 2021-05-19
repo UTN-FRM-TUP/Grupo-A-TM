@@ -2,15 +2,16 @@ import numpy as np
 import pygame
 from pygame.locals import QUIT
 import sys
-from Escenario import *
+from Escenario import enviroment
 
-BLACK = (0,0,0)
-WHITE = (255,255,255)
-BLUE = (0,0,255)
-GREEN = (0,255,0)
-RED = (255,0,0)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
 
 bg = 25, 25, 25
+
 
 def main():
     # Inicia todos los módulos importados
@@ -19,7 +20,7 @@ def main():
     # Estado de las celdas. Pared = 1 / Espacio = 0
     # Genera una matriz inicial a partir del archivo provisto por el usuario
     gameState = np.array(enviroment(), dtype=int)
-    
+
     # Tamaño de la matriz (Estos datos los debería ingresar el usuario)
     nxC, nyC = 25, 18
 
@@ -28,10 +29,11 @@ def main():
     dimensionCeldaAlto = 20
 
     # Establece el ancho y alto de la pantalla
-    screen = pygame.display.set_mode((nxC * dimensionCeldaAncho, nyC * dimensionCeldaAlto))
+    screen = pygame.display.set_mode((
+        nxC * dimensionCeldaAncho, nyC * dimensionCeldaAlto))
     screen.fill(bg)
 
-    # -------- Main Program Loop -----------
+    # -------- Loop principal -----------
     while True:
         ev = pygame.event.get()
 
@@ -45,9 +47,11 @@ def main():
 
                 # Calcula el polígono (cuadrado) que forma la celda.
                 poly = [(y * dimensionCeldaAlto, (x) * dimensionCeldaAncho),
-                    (y * dimensionCeldaAlto, (x+1) * dimensionCeldaAncho),
-                    ((y+1) * dimensionCeldaAlto, (x+1) * dimensionCeldaAncho),
-                    ((y+1) * dimensionCeldaAlto, (x) * dimensionCeldaAncho)]
+                        (y * dimensionCeldaAlto, (x+1) * dimensionCeldaAncho),
+                        ((y+1) * dimensionCeldaAlto, (
+                            (x+1) * dimensionCeldaAncho)),
+                        ((y+1) * dimensionCeldaAlto, (
+                            (x) * dimensionCeldaAncho))]
 
                 # Si es espacio pinta un recuadro con borde gris
                 if gameState[x, y] == 0:
@@ -58,6 +62,7 @@ def main():
                     pygame.draw.polygon(screen, (WHITE), poly, 0)
 
         pygame.display.flip()
+
 
 if __name__ == '__main__':
     main()

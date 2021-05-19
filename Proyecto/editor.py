@@ -24,7 +24,7 @@ dimensionCeldaAncho = 20
 dimensionCeldaAlto = 20
 
 
-while True:
+while True: 
 
     newGameState = np.copy(gameState)
 

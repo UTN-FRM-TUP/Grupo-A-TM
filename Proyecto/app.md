@@ -14,7 +14,6 @@ with open(archivo, 'r') as f:
     7 = Fuego Activo
     8 = Fuego apagado
     9 = Persona
-
      
 ## Clase Persona -> 
 solo se mueve de (Izq,Der,Arr,Aba), si llega al 5 sigue esa linea hasta la salida (6), ver el tema del movimiento??

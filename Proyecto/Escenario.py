@@ -1,6 +1,7 @@
 
 # Acá va la función que lee la matriz desde el archivo provisto por el usuario
 # Por ahora es un ejemplo para chekear funcionamiento
+# TODO Modificar por caracteres
 
 def enviroment():
     grid = ((1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),

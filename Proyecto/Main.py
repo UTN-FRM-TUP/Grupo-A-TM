@@ -1,8 +1,8 @@
-import numpy as np
+# import numpy as np
 import pygame
 from pygame.locals import QUIT
 import sys
-from Escenario import enviroment
+from Escenario import escenario
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -19,7 +19,8 @@ def main():
 
     # Estado de las celdas. Pared = 1 / Espacio = 0
     # Genera una matriz inicial a partir del archivo provisto por el usuario
-    gameState = np.array(enviroment(), dtype=int)
+    # gameState = np.array(enviroment())
+    gameState = escenario()
 
     # Tamaño de la matriz (Estos datos los debería ingresar el usuario)
     nxC, nyC = 25, 18
@@ -56,6 +57,15 @@ def main():
                 # Si es espacio pinta un recuadro con borde gris
                 if gameState[x, y] == 0:
                     pygame.draw.polygon(screen, (40, 40, 40), poly, 1)
+
+                elif gameState[x, y] == 2:
+                    pygame.draw.polygon(screen, (BLUE), poly, 0)
+
+                elif gameState[x, y] == 5:
+                    pygame.draw.polygon(screen, (GREEN), poly, 0)
+
+                elif gameState[x, y] == 6:
+                    pygame.draw.polygon(screen, (BLACK), poly, 0)
 
                 # Si es pared pinta un recuadro relleno de color
                 else:

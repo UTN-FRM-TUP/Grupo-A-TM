@@ -4,12 +4,12 @@ Archivo = input(ruta/al/archivo)
 with open(archivo, 'r') as f:
     f.readlines()
 
-    . = Espacio vacio
-    # = Pared 
+    0 = Espacio vacio
+    1 = Pared 
     2 = Puerta abierta 
     3 = Puerta cerrada
     4 = Mata fuego
-    - = Linea de salida de emergencia 
+    5 = Linea de salida de emergencia 
     6 = Salida
     7 = Fuego Activo
     8 = Fuego apagado
@@ -64,13 +64,12 @@ import time
 tm_sec: segundos 
 
 [  
-   # 6 # ~ # # # #
-   # - . . . & & #
-   # - # 2 # # & #
-   # - # · · # . #
-   # - # # # # · #
-   # - - - - 9 · #
-   # # # # # # # #
+ (1, 1, 1, 1, 1, 1, 1, 1),
+ (1, 5, 2, 0, 0, 1, 0, 1),
+ (1, 5, 1, 0, 0, 1, 0, 2),
+ (1, 5, 1, 1, 1, 1, 0, 1),
+ (1, 5, 5, 0, 0, 0, 0, 1),
+ (1, 1, 6, 1, 1, 1, 1, 1),
 ]
 
 panico int == 80 luego 

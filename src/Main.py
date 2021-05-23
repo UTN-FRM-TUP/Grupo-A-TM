@@ -1,8 +1,6 @@
-# import numpy as np
 import pygame
 from pygame.locals import QUIT
 import sys
-# from Escenario import escenario
 from Escenario import escenario, cantidad_celdas
 
 # Configuración de valores iniciales

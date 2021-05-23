@@ -63,20 +63,17 @@ intensidad int 0 - 100
 import time
 tm_sec: segundos 
 
+### Ejemplo matriz
 [  
-   # 6 # ~ # # # #
-   # - . . . & & #
-   # - # 2 # # & #
-   # - # · · # . #
-   # - # # # # · #
-   # - - - - 9 · #
-   # # # # # # # #
+ (1, 1, 1, 1, 1, 1, 1, 1),
+ (1, 5, 2, 0, 0, 1, 0, 1),
+ (1, 5, 1, 0, 0, 1, 0, 2),
+ (1, 5, 1, 1, 1, 1, 0, 1),
+ (1, 5, 5, 0, 0, 0, 0, 1),
+ (1, 1, 6, 1, 1, 1, 1, 1),
 ]
 
-panico int == 80 luego 
-si arriba 0
-sino derecha 5
-sino abajo 0
-sino izq 0
- Persona(panico)
- panico = random
+si panico <= 80 
+   evalua movimiento
+sino
+   movimiento = random

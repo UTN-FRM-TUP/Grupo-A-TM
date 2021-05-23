@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import QUIT
 import sys
-from Escenario import escenario, cantidad_celdas
+from Escenario import escenario, cantidad_celdas, nombre_archivo
 
 # Configuración de valores iniciales
 NEGRO = (0, 0, 0)
@@ -23,18 +23,15 @@ screen = pygame.display.set_mode((
 
 screen.fill(COLOR_FONDO)
 
+pygame.display.set_caption(nombre_archivo())
+
 
 def main():
     # Inicia todos los módulos importados
     pygame.init()
 
     # Crea el estado del juego a partir del archivo provisto por el usuario
-    try:
-        gameState = escenario()
-    except OSError:
-        print('La ruta especificada no existe')
-        print('Por favor cambie la ruta a un archivo válido')
-        sys.exit()
+    gameState = escenario()
 
     # -------- Loop principal -----------
     while True:

@@ -1,12 +1,25 @@
 import numpy as np
+import sys
 
 # Esta ruta de archivo se obtiene desde la GUI y la ingresa el usuario
-archivo = '/home/nahuel/Descargas/plano.txt'
+archivo = '/home/nahuel/Descargas/escuela.txt'
 
 
 def crear_matriz_desde_archivo():
-    matriz = np.genfromtxt(archivo, delimiter=',')
-    return matriz
+    try:
+        matriz = np.genfromtxt(archivo, delimiter=',')
+    except OSError:
+        print('La ruta especificada no existe')
+        print('Por favor cambie la ruta a un archivo válido')
+        sys.exit()
+    else:
+        return matriz
+
+
+def nombre_archivo():
+    auxlist = list(archivo.split('/'))
+    nombre = auxlist[len(auxlist)-1]
+    return nombre
 
 
 def cantidad_celdas():

@@ -1,7 +1,8 @@
 import pygame
 from pygame.locals import QUIT
+import numpy as np
 import sys
-from Escenario import escenario, cantidad_celdas, nombre_archivo
+from escenario import escenario, cantidad_celdas, nombre_archivo
 
 # Configuración de valores iniciales
 NEGRO = (0, 0, 0)
@@ -31,7 +32,9 @@ def main():
     pygame.init()
 
     # Crea el estado del juego a partir del archivo provisto por el usuario
-    gameState = escenario()
+    estado_juego = escenario()
+
+    nuevo_estado = np.copy(estado_juego)
 
     # -------- Loop principal -----------
     while True:
@@ -56,13 +59,13 @@ def main():
                             (x) * DIMENSION_CELDA))]
 
                 # Define como se dibuja cada elemento
-                if gameState[x, y] == 0:
+                if estado_juego[x, y] == 0:
                     pygame.draw.polygon(screen, (40, 40, 40), poly, 1)
-                elif gameState[x, y] == 2:
+                elif estado_juego[x, y] == 2:
                     pygame.draw.polygon(screen, (AZUL), poly, 0)
-                elif gameState[x, y] == 5:
+                elif estado_juego[x, y] == 5:
                     pygame.draw.polygon(screen, (VERDE), poly, 0)
-                elif gameState[x, y] == 6:
+                elif estado_juego[x, y] == 6:
                     pygame.draw.polygon(screen, (NEGRO), poly, 0)
                 else:
                     pygame.draw.polygon(screen, (BLANCO), poly, 0)

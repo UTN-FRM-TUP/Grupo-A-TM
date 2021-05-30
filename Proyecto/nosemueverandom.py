@@ -3,6 +3,7 @@ from pygame.locals import QUIT
 import numpy as np
 import sys
 from escenario import escenario, cantidad_celdas, nombre_archivo
+"""from people import mover"""
 import time
 import random
 
@@ -27,8 +28,6 @@ screen = pygame.display.set_mode((
 
 screen.fill(COLOR_FONDO)
 
-contador = 0
-
 pygame.display.set_caption(nombre_archivo())
 
 
@@ -42,6 +41,7 @@ def evalua_celda_vecina(estado, x, y):
 
 
 def elegir_direccion(celdas_vecinas, estado, x, y):
+    direccion_anterior = 'izquierda'
 
     espacios_vacios = []
 
@@ -50,64 +50,38 @@ def elegir_direccion(celdas_vecinas, estado, x, y):
             if celdas_vecinas[direccion] == 6:  # salida
                 eleccion(direccion, estado, x, y)
                 # continue
-                """ elif celdas_vecinas[direccion] == 5:  # salida de emergencia
+            elif celdas_vecinas[direccion] == 5:  # salida de emergencia
                 eleccion(direccion, estado, x, y)
                 direccion_anterior = direccion
-                # continue """
+                # continue
             elif celdas_vecinas[direccion] == 0:  # espacio vacio
+                eleccion(direccion, estado, x, y)
+                direccion_anterior = direccion
                 espacios_vacios.append(direccion)
-                
                 """ elif celdas_vecinas[direccion] == 2:    # Puerta abierta
                 eleccion(direccion, estado, x, y)
-                direccion_anterior = direccion
-                # continue
-         
-             elif celdas_vecinas[direccion] == 8:    # fuego apagado
+                direccion_anterior = direccion 
+                # continue"""
+            elif celdas_vecinas[direccion] == 8:    # fuego apagado
                 eleccion(direccion, estado, x, y)
                 direccion_anterior = direccion
                 # continue
-                elif celdas_vecinas[direccion] == 7:    # Fuego activo
+            elif celdas_vecinas[direccion] == 7:    # Fuego activo
                 # condicion = 'herido'
                 volver(direccion_anterior, estado, x, y)
-                # continue """
+                # continue
             elif celdas_vecinas[direccion] == 1:    # Pared
+                """volver(direccion_anterior, estado, x, y)"""
                 continue
- 
-    """ if bandera is True:
-        print("hola")
-        print(espacios_vacios)
-        if direccion_anterior == 'izquierda':
-            if 'derecha' in espacios_vacios:
-                espacios_vacios.remove('derecha')
-        elif direccion_anterior == 'derecha':
-            if 'izquierda' in espacios_vacios:
-                espacios_vacios.remove('izquierda')
-        elif direccion_anterior == 'arriba':
-            if 'abajo' in espacios_vacios:
-                espacios_vacios.remove('abajo')
-        elif direccion_anterior == 'abajo':
-            if 'arriba' in espacios_vacios:
-                espacios_vacios.remove('arriba') """
 
-    print("espacio con eliminacion", espacios_vacios)
     direccion_entre_ceros = random.choice(espacios_vacios)
-    direccion_anterior = direccion_entre_ceros
-
-    print(direccion_anterior)
+    
+    # print(direccion_entre_ceros, x, y)
 
     eleccion(direccion_entre_ceros, estado, x, y)
 
     espacios_vacios.clear()
 
-
-""" def guardar_direccion(celdas_vecinas):
-    espacios_vacios = []
-    for direccion in celdas_vecinas:
-        if celdas_vecinas[direccion] == 0:  # espacio vacio
-            espacios_vacios.append(direccion)
-
-    return random.choice(espacios_vacios) """
-    
 
 def volver(direccion, estado, x, y):
     if direccion == "izquierda":
@@ -118,6 +92,7 @@ def volver(direccion, estado, x, y):
         arriba(estado, x, y)
     if direccion == "abajo":
         arriba(estado, x, y)
+    # return estado
 
 
 def eleccion(direccion, estado, x, y):
@@ -129,6 +104,28 @@ def eleccion(direccion, estado, x, y):
         arriba(estado, x, y)
     if direccion == "abajo":
         abajo(estado, x, y)
+    
+    # return estado
+
+
+"""def eleccion(direccion, direccion_anterior, celdas_vecinas, estado, x, y):
+    if direccion_anterior != 'derecha' and direccion == "izquierda":
+        izquierda(estado, x, y)
+    else:
+        elegir_direccion(celdas_vecinas, estado, x, y)
+    if direccion_anterior != 'izquierda' and direccion == "derecha":
+        derecha(estado, x, y)
+    else:
+        elegir_direccion(celdas_vecinas, estado, x, y)
+    if direccion_anterior != 'derecha' and direccion == "arriba":
+        arriba(estado, x, y)
+    else:
+        elegir_direccion(celdas_vecinas, estado, x, y)
+    if direccion_anterior != 'derecha' and direccion == "abajo":
+        abajo(estado, x, y)
+    else:
+        elegir_direccion(celdas_vecinas, estado, x, y)
+    # return estado"""
 
 
 def izquierda(estado, x, y):
@@ -136,13 +133,17 @@ def izquierda(estado, x, y):
     proximo = estado[x, y-1]
     estado[x, y] = proximo
     estado[x, y-1] = actual
+    # return estado
 
 
 def derecha(estado, x, y):
-    actual = estado[x, y]
-    proximo = estado[x, y+1]
-    estado[x, y] = proximo
-    estado[x, y+1] = actual
+    actual = estado[x, y]   # 9
+    proximo = estado[x, y+1]  # 0
+    estado[x, y] = proximo  # 0
+    print('nuevo actual', estado[x, y])
+    estado[x, y+1] = actual  # 9
+    print('nuevo proximo', estado[x, y+1])
+    # return estado
 
 
 def arriba(estado, x, y):
@@ -150,6 +151,7 @@ def arriba(estado, x, y):
     proximo = estado[x-1, y]
     estado[x-1, y] = actual
     estado[x, y] = proximo
+    # return estado
 
 
 def abajo(estado, x, y):
@@ -157,6 +159,7 @@ def abajo(estado, x, y):
     proximo = estado[x+1, y]
     estado[x+1, y] = actual
     estado[x, y] = proximo
+    # return estado
 
 
 def main():
@@ -167,21 +170,24 @@ def main():
     # Crea el estado del juego a partir del archivo provisto por el usuario
     estado_juego = escenario()
 
+    nuevo_estado = np.copy(estado_juego)
 
-    """ for x, y in zip(*np.where(estado_juego == 9)):
-        cant_per += cant_per """
+    # Crea las personas
+    """personas = []"""
 
-    # bandera = False
-    
+    cant_per = 0
+
+    for x, y in zip(*np.where(estado_juego == 9)):
+        cant_per += cant_per
+
+    """ for i in range(cant_per):
+        personas.append(people(estado_juego, 'sano')) """
+
     # -------- Loop principal -----------
     while True:
 
         # Disminuye velocidad
-        time.sleep(2)
-
-        nuevo_estado = np.copy(estado_juego)
-
-        screen.fill(COLOR_FONDO)
+        time.sleep(0.1)
 
         # Maneja los eventos
         ev = pygame.event.get()
@@ -190,7 +196,7 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-        
+
         # Recorre la matriz
         for y in range(0, nxC):
             for x in range(0, nyC):
@@ -215,7 +221,7 @@ def main():
                 elif estado_juego[x, y] == 7:
                     pygame.draw.polygon(screen, (ROJO), poly, 0)
                 elif estado_juego[x, y] == 9:
-                    pygame.draw.polygon(screen, (0, 255, 255), poly, 0)
+                    pygame.draw.polygon(screen, (255, 255, 0), poly, 0)
                 else:
                     pygame.draw.polygon(screen, (BLANCO), poly, 0)
 
@@ -225,9 +231,9 @@ def main():
 
                 if estado_juego[x, y] == 9:
                     celdas_vecinas = evalua_celda_vecina(nuevo_estado, x, y)
-                    elegir_direccion(celdas_vecinas, estado_juego, x, y)
-                    # bandera = True
-                   
+                    # print(celdas_vecinas)
+                    elegir_direccion(celdas_vecinas, nuevo_estado, x, y)
+
         estado_juego = np.copy(nuevo_estado)
 
         # Recarga la pantalla

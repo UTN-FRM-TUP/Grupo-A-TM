@@ -2,7 +2,7 @@ import numpy as np
 import sys
 
 # Esta ruta de archivo se obtiene desde la GUI y la ingresa el usuario
-archivo = 'A:\escuela.txt'
+archivo = 'A:\cubo.txt'
 
 
 def crear_matriz_desde_archivo():

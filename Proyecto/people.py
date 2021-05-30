@@ -85,3 +85,35 @@ def abajo(estado, x, y):
     estado[x, y] = estado[x+1, y]
     estado[x+1, y] = 9
     return estado
+
+
+def izquierda(estado, x, y):
+    actual = estado[x, y]
+    proxima = estado[x, y-1]
+    estado[x, y] = proxima
+    estado[x, y-1] = actual
+    # return estado
+
+
+def derecha(estado, x, y):
+    actual = estado[x, y]
+    proximo = estado[x, y+1]
+    estado[x, y] = proximo
+    estado[x, y+1] = actual
+    # return estado
+
+
+def arriba(estado, x, y):
+    actual = estado[x, y]
+    proximo = estado[x-1, y]
+    estado[x-1, y] = actual
+    estado[x, y] = proximo
+    # return estado
+
+
+def abajo(estado, x, y):
+    actual = estado[x, y]
+    proximo = estado[x+1, y]
+    estado[x+1, y] = actual
+    estado[x, y] = proximo
+    # return estado

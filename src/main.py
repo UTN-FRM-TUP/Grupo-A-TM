@@ -124,7 +124,6 @@ def main():
                                 print(person.ide, person.x, person.y)
 
                         mover = False
-                        print('----')
 
         estado_juego = np.copy(nuevo_estado)
 

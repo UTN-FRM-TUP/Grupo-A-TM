@@ -4,7 +4,7 @@ import numpy as np
 import sys
 from escenario import escenario, cantidad_celdas, nombre_archivo
 import time
-import random
+from persona import Persona
 
 
 # Configuración de valores iniciales
@@ -22,107 +22,44 @@ DIMENSION_CELDA = 20
 nxC, nyC = cantidad_celdas()
 
 # Establece el ancho y alto de la pantalla
-screen = pygame.display.set_mode((
-    nxC * DIMENSION_CELDA, nyC * DIMENSION_CELDA))
+ancho_pantalla = nxC * DIMENSION_CELDA
+alto_pantalla = nyC * DIMENSION_CELDA
+
+screen = pygame.display.set_mode((ancho_pantalla, alto_pantalla))
 
 screen.fill(COLOR_FONDO)
 
 pygame.display.set_caption(nombre_archivo())
 
 
-def evalua_celda_vecina(estado, x, y):
-    celdas_vecinas = {}
-    celdas_vecinas.update({'derecha': estado[x, y+1]})
-    celdas_vecinas.update({'abajo': estado[x+1, y]})
-    celdas_vecinas.update({'izquierda': estado[x, y-1]})
-    celdas_vecinas.update({'arriba': estado[x-1, y]})
-    return celdas_vecinas
-
-
-def elegir_direccion(celdas_vecinas, estado, x, y):
-
-    espacios_vacios = []
-
-    if not estado[x, y] == 6:
-        for direccion in celdas_vecinas:
-            if celdas_vecinas[direccion] == 6:  # salida
-                eleccion(direccion, estado, x, y)
-            elif celdas_vecinas[direccion] == 0:  # espacio vacio
-                espacios_vacios.append(direccion)
-            elif celdas_vecinas[direccion] == 1:    # Pared
-                continue
-
-    direccion_entre_ceros = random.choice(espacios_vacios)
-
-    eleccion(direccion_entre_ceros, estado, x, y)
-
-    espacios_vacios.clear()
-
-
-def volver(direccion, estado, x, y):
-    if direccion == "izquierda":
-        derecha(estado, x, y)
-    if direccion == "derecha":
-        izquierda(estado, x, y)
-    if direccion == "arriba":
-        arriba(estado, x, y)
-    if direccion == "abajo":
-        arriba(estado, x, y)
-
-
-def eleccion(direccion, estado, x, y):
-    if direccion == "izquierda":
-        izquierda(estado, x, y)
-    if direccion == "derecha":
-        derecha(estado, x, y)
-    if direccion == "arriba":
-        arriba(estado, x, y)
-    if direccion == "abajo":
-        abajo(estado, x, y)
-
-
-def izquierda(estado, x, y):
-    actual = estado[x, y]
-    proximo = estado[x, y-1]
-    estado[x, y] = proximo
-    estado[x, y-1] = actual
-
-
-def derecha(estado, x, y):
-    actual = estado[x, y]
-    proximo = estado[x, y+1]
-    estado[x, y] = proximo
-    estado[x, y+1] = actual
-
-
-def arriba(estado, x, y):
-    actual = estado[x, y]
-    proximo = estado[x-1, y]
-    estado[x-1, y] = actual
-    estado[x, y] = proximo
-
-
-def abajo(estado, x, y):
-    actual = estado[x, y]
-    proximo = estado[x+1, y]
-    estado[x+1, y] = actual
-    estado[x, y] = proximo
-
-
 def main():
     # Inicia todos los módulos importados
-
     pygame.init()
+
+    # Variable bandera para pausar la simulacion
+    pauseExect = False
 
     # Crea el estado del juego a partir del archivo provisto por el usuario
     estado_juego = escenario()
+
+    # Crea una lista con las posicines de las personas
+    personas = []
+
+    # Recorre la matriz y crea una persona en la posición corespondiente
+    ide = 0
+    for y in range(0, nxC):
+        for x in range(0, nyC):
+            if estado_juego[x, y] == 9:
+                personas.append(Persona(ide, estado_juego, x, y))
+                ide += 1
 
     # -------- Loop principal -----------
     while True:
 
         # Disminuye velocidad
-        time.sleep(0.2)
+        time.sleep(0.3)
 
+        # Crea un nuevo estado sobre el que se producen las modificaciones
         nuevo_estado = np.copy(estado_juego)
 
         screen.fill(COLOR_FONDO)
@@ -131,9 +68,17 @@ def main():
         ev = pygame.event.get()
 
         for event in ev:
+
+            # Detectamos si se presiona una tecla pra controlar la pausa
+            if event.type == pygame.KEYDOWN:
+                pauseExect = not pauseExect
+
+            # Cierrra la simulacion si se cierra la ventana
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
+        mover = True
 
         # Recorre la matriz
         for y in range(0, nxC):
@@ -147,7 +92,7 @@ def main():
                         ((y+1) * DIMENSION_CELDA, (
                             (x) * DIMENSION_CELDA))]
 
-                # Define como se dibuja cada elemento
+                # Dibuja cada elemento
                 if estado_juego[x, y] == 0:
                     pygame.draw.polygon(screen, (40, 40, 40), poly, 1)
                 elif estado_juego[x, y] == 2:
@@ -166,9 +111,20 @@ def main():
                 # Movimiento de las personas
                 celdas_vecinas = {}
 
-                if estado_juego[x, y] == 9:
-                    celdas_vecinas = evalua_celda_vecina(nuevo_estado, x, y)
-                    elegir_direccion(celdas_vecinas, nuevo_estado, x, y)
+                if not pauseExect:
+
+                    if estado_juego[x, y] == 9:
+
+                        if mover:
+                            for person in personas:
+                                celdas_vecinas = person.evalua_celda_vecina(
+                                    nuevo_estado)
+                                person.elegir_direccion(
+                                    nuevo_estado, celdas_vecinas)
+                                print(person.ide, person.x, person.y)
+
+                        mover = False
+                        print('----')
 
         estado_juego = np.copy(nuevo_estado)
 

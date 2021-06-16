@@ -11,7 +11,12 @@ class Persona():
         self.x = x
         self.y = y
         self.direccion_anterior = 'a'
-        self.salida_emergencia = False
+        self.muerto = False
+        self.herido
+        self.salvado = False
+
+        # Variable bandera para controlar el ingreso a un camino de emergencia
+        self.salida_emergencia = True
 
     def evalua_celda_vecina(self, nuevo_estado):
         celdas_vecinas = {}
@@ -24,58 +29,91 @@ class Persona():
 
     def elegir_direccion(self, nuevo_estado, celdas_vecinas):
 
-        espacios_vacios = []
-        # direcciones_validas = []
+        celdas_validas = []
+        camino = []        
+        movimiento = False
         
-        if nuevo_estado[self.x, self.y] != 6:
-            for direccion in celdas_vecinas:
-                if celdas_vecinas[direccion] == 5:
-                    if not self.salida_emergencia:
-                        if direccion == "izquierda":
-                            print('EMERGENCIA izquierda')
-                            self.salida_emergencia = True
-                            nuevo_estado[self.x, self.y] = 0
-                            nuevo_estado[self.x, self.y-1] = 9
-                            self.actualizar_posicion(self.x, self.y-1)
-                        elif direccion == "derecha":
-                            print('EMERGENCIA derecha')
-                            self.salida_emergencia = True
-                            nuevo_estado[self.x, self.y] = 0
-                            nuevo_estado[self.x, self.y+1] = 9
-                            self.actualizar_posicion(self.x, self.y+1)
-                        elif direccion == "arriba":
-                            print('EMERGENCIA izquierda')
-                            self.salida_emergencia = True
-                            nuevo_estado[self.x, self.y] = 0
-                            nuevo_estado[self.x-1, self.y] = 9
-                            self.actualizar_posicion(self.x-1, self.y)
-                            self.arriba(nuevo_estado)
-                        elif direccion == "abajo":
-                            print("EMERGENCIA abajo")
-                            self.salida_emergencia = True
-                            nuevo_estado[self.x, self.y] = 0
-                            nuevo_estado[self.x+1, self.y] = 9
-                            self.actualizar_posicion(self.x+1, self.y)
-                            self.abajo(nuevo_estado)
-                    else:
-                        self.eleccion(direccion, nuevo_estado)
+        for direccion in celdas_vecinas:
 
-                elif celdas_vecinas[direccion] == 0: #or celdas_vecinas[direccion] == 2:  # espacio vacio o puerta
-                    espacios_vacios.append(direccion)
-                elif celdas_vecinas[direccion] == 1: #or celdas_vecinas[direccion] == 9:  # Pared o personas
-                    continue
+            # Camino de salida de emergencia
+            if celdas_vecinas[direccion] == 6:
+                self.salvado = True
+            elif celdas_vecinas[direccion] == 5:
+                camino.append(direccion)
+                if self.salida_emergencia:
+                    movimiento = True
+                    self.ingreso_camino_emergencia(
+                        nuevo_estado, direccion)
 
-        if self.direccion_anterior == 'a':
-            direccion_entre_ceros = random.choice(espacios_vacios)
+            # Espacio vacio o puerta
+            elif celdas_vecinas[direccion] == 0 or (
+                    celdas_vecinas[direccion] == 2):
+                celdas_validas.append(direccion)
+
+            # Pared o personas
+            elif celdas_vecinas[direccion] == 1 or (
+                    celdas_vecinas[direccion] == 9):
+                continue
+
+        # Se ejecuta cuando está dentro de un camino de emergencia
+        if len(camino) > 0 and movimiento == False:
+            # Comprueba que no sea un final de camino
+            if len(camino) > 1:
+                camino.remove(self.volver())
+            direccion_entre_ceros = random.choice(camino)
+
+            self.guardar_dirección_anterior(direccion_entre_ceros)
+
+            self.eleccion(direccion_entre_ceros, nuevo_estado)
+
+            camino.clear()
+        # Si no es un camino de emergencia
         else:
-            espacios_vacios.remove(self.volver())
-            direccion_entre_ceros = random.choice(espacios_vacios)
+            if self.direccion_anterior == 'a':
+                direccion_entre_ceros = random.choice(celdas_validas)
+            else:
+                celdas_validas.remove(self.volver())
+                direccion_entre_ceros = random.choice(celdas_validas)
 
-        self.guardar_dirección_anterior(direccion_entre_ceros)
+            self.guardar_dirección_anterior(direccion_entre_ceros)
 
-        self.eleccion(direccion_entre_ceros, nuevo_estado)
+            self.eleccion(direccion_entre_ceros, nuevo_estado)
 
-        espacios_vacios.clear()
+            celdas_validas.clear()
+
+    def ingreso_camino_emergencia(self, nuevo_estado, direccion):
+        if direccion == "izquierda":
+            print('EMERGENCIA izquierda')
+            # Se mueve a la izquierda
+            nuevo_estado[self.x, self.y] = 0
+            nuevo_estado[self.x, self.y-1] = 9
+            self.salida_emergencia = False
+            self.actualizar_posicion(self.x, self.y-1)
+            self.direccion_anterior = "izquierda"
+        elif direccion == "derecha":
+            print('EMERGENCIA derecha')
+            # Se mueve a la derecha
+            nuevo_estado[self.x, self.y] = 0
+            nuevo_estado[self.x, self.y+1] = 9
+            self.salida_emergencia = False
+            self.actualizar_posicion(self.x, self.y+1)
+            self.direccion_anterior = "derecha"
+        elif direccion == "arriba":
+            print('EMERGENCIA arriba')
+            # Se mueve hacia arriba
+            nuevo_estado[self.x, self.y] = 0
+            nuevo_estado[self.x-1, self.y] = 9
+            self.salida_emergencia = False
+            self.actualizar_posicion(self.x-1, self.y)
+            self.direccion_anterior = "arriba"
+        elif direccion == "abajo":
+            print("EMERGENCIA abajo")
+            # Se mueve hacia abajo
+            nuevo_estado[self.x, self.y] = 0
+            nuevo_estado[self.x+1, self.y] = 9
+            self.salida_emergencia = False
+            self.actualizar_posicion(self.x+1, self.y)
+            self.direccion_anterior = "abajo"
 
     def volver(self):
         if self.direccion_anterior == 'izquierda':

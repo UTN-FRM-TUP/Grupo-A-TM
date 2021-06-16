@@ -18,6 +18,7 @@ COLOR_FONDO = 25, 25, 25
 
 DIMENSION_CELDA = 20
 
+
 # Tamaño de la matriz
 nxC, nyC = cantidad_celdas()
 
@@ -42,6 +43,11 @@ def main():
     # Crea el estado del juego a partir del archivo provisto por el usuario
     estado_juego = escenario()
 
+    # Contadores de estado de las personas
+    muertos = 0
+    heridos = 0
+    salvados = 0
+
     # Crea una lista con las posicines de las personas
     personas = []
 
@@ -57,7 +63,7 @@ def main():
     while True:
 
         # Disminuye velocidad
-        time.sleep(0.3)
+        time.sleep(0.5)
 
         # Crea un nuevo estado sobre el que se producen las modificaciones
         nuevo_estado = np.copy(estado_juego)
@@ -115,15 +121,23 @@ def main():
 
                     if estado_juego[x, y] == 9:
 
-                        if mover:
-                            for person in personas:
-                                celdas_vecinas = person.evalua_celda_vecina(
-                                    nuevo_estado)
-                                person.elegir_direccion(
-                                    nuevo_estado, celdas_vecinas)
-                                print(person.ide, person.x, person.y)
+                        if len(personas) > 0:
+                            if mover:
+                                for person in personas:
+                                    celdas_vecinas = person.evalua_celda_vecina(nuevo_estado)
+                                    person.elegir_direccion(
+                                        nuevo_estado, celdas_vecinas)
+                                    print(person.ide, person.x, person.y)
+                                    if person.muerto == True:
+                                        personas.remove(person)
+                                        muertos += 1
+                                    elif person.salvado == True:
+                                        personas.remove(person)
+                                        salvados += 1
+                                    elif person.herido == True:
+                                        heridos += 1
 
-                        mover = False
+                            mover = False
 
         estado_juego = np.copy(nuevo_estado)
 

@@ -1,3 +1,5 @@
+""" Modulo de funciones para el manejo del escenario """
+
 import numpy as np
 import sys
 

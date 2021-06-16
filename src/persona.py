@@ -12,7 +12,7 @@ class Persona():
         self.y = y
         self.direccion_anterior = 'a'
         self.muerto = False
-        self.herido
+        self.herido = False
         self.salvado = False
 
         # Variable bandera para controlar el ingreso a un camino de emergencia

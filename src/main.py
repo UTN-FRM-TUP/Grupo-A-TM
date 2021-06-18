@@ -6,6 +6,7 @@ from escenario import escenario, cantidad_celdas, nombre_archivo
 import time
 from persona import Persona
 from celdas import evalua_celda_vecina
+from fuego import Fuego
 
 
 # Configuración de valores iniciales
@@ -60,11 +61,13 @@ def main():
                 personas.append(Persona(ide, estado_juego, x, y))
                 ide += 1
 
+    fueguito = Fuego()
+
     # -------- Loop principal -----------
     while True:
 
         # Disminuye velocidad
-        time.sleep(0.3)
+        time.sleep(0.5)
 
         # Crea un nuevo estado sobre el que se producen las modificaciones
         nuevo_estado = np.copy(estado_juego)
@@ -110,6 +113,8 @@ def main():
                     pygame.draw.polygon(screen, (NEGRO), poly, 0)
                 elif estado_juego[x, y] == 7:
                     pygame.draw.polygon(screen, (ROJO), poly, 0)
+                elif estado_juego[x, y] == 8:
+                    pygame.draw.polygon(screen, (128, 0, 0), poly, 0)
                 elif estado_juego[x, y] == 9:
                     pygame.draw.polygon(screen, (0, 255, 255), poly, 0)
                 else:
@@ -117,8 +122,14 @@ def main():
 
                 # Movimiento de las personas
                 celdas_vecinas = {}
+                celdas_vecinas_fuego = {}
 
                 if not pauseExect:
+
+                    if estado_juego[x, y] == 7:
+                        celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
+                        fueguito.propagacion_fuego(x, y, nyC, celdas_vecinas_fuego, nuevo_estado)
+
 
                     if estado_juego[x, y] == 9:
                         if len(personas) > 0:

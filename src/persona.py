@@ -3,7 +3,6 @@
 import random
 from movimientos import volver, izquierda, derecha, arriba, abajo
 
-
 class Persona():
 
     def __init__(self, ide, estado, x, y):
@@ -24,7 +23,7 @@ class Persona():
         self.salida_emergencia = True
 
     def elegir_direccion(self, nuevo_estado, celdas_vecinas):
-
+        """ Elije una de las celdas y realiza el movimiento """
         celdas_validas = []
         camino = []        
         movimiento = False
@@ -62,7 +61,7 @@ class Persona():
             # No elimine elementos de listas con un solo elemento
             if len(camino) > 1:
                 for direccion in camino:
-                    if direccion == volver(self.direccion_anterior):
+                    if direccion == volver(self.direccion_anterior): #
                         camino.remove(volver(self.direccion_anterior))
 
             # Elige entre elementos si la lista tiene al menos dos
@@ -95,7 +94,7 @@ class Persona():
                 if len(celdas_validas) > 1:                     
                    for direccion in celdas_validas:
                         if direccion == volver(self.direccion_anterior):
-                            celdas_validas.remove(volver(self.direccion_anterior))
+                            celdas_validas.remove(volver(self.direccion_anterior)) 
                    
                 # Elige entre elementos si la lista tiene al menos dos
                 if len(celdas_validas) > 1:                    
@@ -108,6 +107,7 @@ class Persona():
                 self.eleccion(direccion_entre_ceros, nuevo_estado)
 
         celdas_validas.clear()
+
 
     def salida(self, nuevo_estado, direccion):
         if direccion == "izquierda":
@@ -128,7 +128,7 @@ class Persona():
             self.salvado = True
         elif direccion == "arriba":
             # Se mueve hacia arriba
-            if self.valor_anterior == 0:
+            if self.valor_anterior == 0: 
                 nuevo_estado[self.x-1, self.y] = 0
             elif self.valor_anterior == 5:
                 nuevo_estado[self.x-1, self.y] = 5
@@ -174,28 +174,25 @@ class Persona():
 
     # LLama al método que realiza el movimiento de acuerdo a la dirección
     def eleccion(self, direccion, nuevo_estado):
+        """ Realiza movimiento y almacena valor de la celda anterior """
         if direccion == "izquierda":
-            izquierda(self.x, self.y, nuevo_estado, self.valor_anterior)
-            self.actualizar_posicion(direccion, nuevo_estado) 
+            self.valor_anterior = izquierda(self.x, self.y, nuevo_estado, self.valor_anterior)
+            self.actualizar_posicion(self.x, self.y-1)
         elif direccion == "derecha":
-            derecha(self.x, self.y, nuevo_estado, self.valor_anterior)
-            self.actualizar_posicion(direccion, nuevo_estado)
+            self.valor_anterior = derecha(self.x, self.y, nuevo_estado, self.valor_anterior)
+            self.actualizar_posicion(self.x, self.y+1)
         elif direccion == "arriba":
-            arriba(self.x, self.y, nuevo_estado, self.valor_anterior)
-            self.actualizar_posicion(direccion, nuevo_estado)
+            self.valor_anterior = arriba(self.x, self.y, nuevo_estado, self.valor_anterior)
+            self.actualizar_posicion(self.x-1, self.y)
         elif direccion == "abajo":
-            abajo(self.x, self.y, nuevo_estado, self.valor_anterior)  
-            self.actualizar_posicion(direccion, nuevo_estado) 
+            self.valor_anterior = abajo(self.x, self.y, nuevo_estado, self.valor_anterior)  
+            self.actualizar_posicion(self.x+1, self.y)
 
-    def actualizar_posicion(self, direccion, nuevo_estado): 
-        if direccion == "izquierda":
-            self.x, self.y = izquierda(self.x, self.y, nuevo_estado, self.valor_anterior) 
-        elif direccion == "derecha":
-            self.x, self.y = derecha(self.x, self.y, nuevo_estado, self.valor_anterior)
-        elif direccion == "arriba":
-            self.x, self.y = arriba(self.x, self.y, nuevo_estado, self.valor_anterior)
-        elif direccion == "abajo":
-            self.x, self.y = abajo(self.x, self.y, nuevo_estado, self.valor_anterior)
+    def actualizar_posicion(self, x, y):  
+        self.x = x
+        self.y = y
+
+    
 
 
 

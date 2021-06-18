@@ -13,41 +13,37 @@ def volver(direccion_anterior):
 
 # Métodos que realizan el movimiento
 def izquierda(x, y, nuevo_estado, valor_anterior):
-        actual = nuevo_estado[x, y]
-        proximo = nuevo_estado[x, y-1]
-        if proximo != 6:
-            valor_anterior = proximo
-        nuevo_estado[x, y] = proximo
-        nuevo_estado[x, y-1] = actual
-        return(x, y-1)
-
-
+    actual = nuevo_estado[x, y]
+    proximo = nuevo_estado[x, y-1]
+    if proximo != 6:
+        valor_anterior = proximo
+    nuevo_estado[x, y] = proximo
+    nuevo_estado[x, y-1] = actual
+    return valor_anterior
+               
 def derecha(x, y, nuevo_estado, valor_anterior):
-        actual = nuevo_estado[x, y]
-        proximo = nuevo_estado[x, y+1]
-        if proximo != 6:
-            valor_anterior = proximo
-        nuevo_estado[x, y] = proximo
-        nuevo_estado[x, y+1] = actual
-        return(x, y+1)
+    actual = nuevo_estado[x, y]
+    proximo = nuevo_estado[x, y+1]
+    if proximo != 6:
+        valor_anterior = proximo
+    nuevo_estado[x, y] = proximo
+    nuevo_estado[x, y+1] = actual
+    return valor_anterior
 
 def arriba(x, y, nuevo_estado, valor_anterior):
-        actual = nuevo_estado[x, y]
-        proximo = nuevo_estado[x-1, y]
-        if proximo != 6:
-            valor_anterior = proximo
-        nuevo_estado[x, y] = proximo
-        nuevo_estado[x-1, y] = actual
-        return(x-1, y)
+    actual = nuevo_estado[x, y]
+    proximo = nuevo_estado[x-1, y]
+    if proximo != 6:
+        valor_anterior = proximo
+    nuevo_estado[x, y] = proximo
+    nuevo_estado[x-1, y] = actual
+    return valor_anterior
 
 def abajo(x, y, nuevo_estado, valor_anterior):
-        actual = nuevo_estado[x, y]
-        proximo = nuevo_estado[x+1, y]
-        if proximo != 6:
-            valor_anterior = proximo
-        nuevo_estado[x, y] = proximo
-        nuevo_estado[x+1, y] = actual
-        return(x+1, y)
-        
-
-        
+    actual = nuevo_estado[x, y]
+    proximo = nuevo_estado[x+1, y]
+    if proximo != 6:
+        valor_anterior = proximo
+    nuevo_estado[x, y] = proximo
+    nuevo_estado[x+1, y] = actual
+    return valor_anterior

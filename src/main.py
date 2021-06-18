@@ -5,6 +5,7 @@ import sys
 from escenario import escenario, cantidad_celdas, nombre_archivo
 import time
 from persona import Persona
+from celdas import evalua_celda_vecina
 
 
 # Configuración de valores iniciales
@@ -63,7 +64,7 @@ def main():
     while True:
 
         # Disminuye velocidad
-        time.sleep(0.5)
+        time.sleep(0.3)
 
         # Crea un nuevo estado sobre el que se producen las modificaciones
         nuevo_estado = np.copy(estado_juego)
@@ -120,24 +121,28 @@ def main():
                 if not pauseExect:
 
                     if estado_juego[x, y] == 9:
-
                         if len(personas) > 0:
                             if mover:
                                 for person in personas:
-                                    celdas_vecinas = person.evalua_celda_vecina(nuevo_estado)
+                                    celdas_vecinas = evalua_celda_vecina(person.x, person.y, nuevo_estado)
                                     person.elegir_direccion(
                                         nuevo_estado, celdas_vecinas)
                                     print(person.ide, person.x, person.y)
                                     if person.muerto == True:
+                                        print("muerto")
                                         personas.remove(person)
                                         muertos += 1
                                     elif person.salvado == True:
+                                        print("salvado")
                                         personas.remove(person)
                                         salvados += 1
                                     elif person.herido == True:
+                                        print("herido")
                                         heridos += 1
 
                             mover = False
+                        else:
+                            break
 
         estado_juego = np.copy(nuevo_estado)
 

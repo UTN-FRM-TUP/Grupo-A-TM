@@ -17,6 +17,7 @@ class Persona():
         # Atributos de estado
         self.muerto = False
         self.herido = False
+        self.herido2 = False
         self.salvado = False
 
         # Variable bandera para controlar el ingreso a un camino de emergencia
@@ -51,6 +52,10 @@ class Persona():
 
             # Pared
             elif celdas_vecinas[direccion] == 1:
+                continue
+            # Fuego
+            elif celdas_vecinas[direccion] == 7 or celdas_vecinas[direccion] == 8:
+                self.herido = True
                 continue
             # Personas
             elif celdas_vecinas[direccion] == 9:
@@ -107,7 +112,6 @@ class Persona():
                 self.eleccion(direccion_entre_ceros, nuevo_estado)
 
         celdas_validas.clear()
-
 
     def salida(self, nuevo_estado, direccion):
         if direccion == "izquierda":
@@ -191,9 +195,4 @@ class Persona():
     def actualizar_posicion(self, x, y):  
         self.x = x
         self.y = y
-
     
-
-
-
-

@@ -8,4 +8,3 @@ def evalua_celda_vecina(x, y, nuevo_estado):
     celdas_vecinas.update({'izquierda': nuevo_estado[x, y-1]})
     celdas_vecinas.update({'arriba': nuevo_estado[x-1, y]})
     return celdas_vecinas
-

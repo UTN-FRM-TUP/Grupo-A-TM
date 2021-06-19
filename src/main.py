@@ -4,6 +4,7 @@ import numpy as np
 import sys
 from escenario import escenario, cantidad_celdas, nombre_archivo
 import time
+import random
 from persona import Persona
 from celdas import evalua_celda_vecina
 from fuego import Fuego
@@ -114,7 +115,7 @@ def main():
                 elif estado_juego[x, y] == 7:
                     pygame.draw.polygon(screen, (ROJO), poly, 0)
                 elif estado_juego[x, y] == 8:
-                    pygame.draw.polygon(screen, (128, 0, 0), poly, 0)
+                    pygame.draw.polygon(screen, (ROJO), poly, 0)
                 elif estado_juego[x, y] == 9:
                     pygame.draw.polygon(screen, (0, 255, 255), poly, 0)
                 else:
@@ -127,9 +128,10 @@ def main():
                 if not pauseExect:
 
                     if estado_juego[x, y] == 7:
-                        celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
-                        fueguito.propagacion_fuego(x, y, nyC, celdas_vecinas_fuego, nuevo_estado)
-
+                        # Controla que el movimiento del fuego sea menor
+                        if (random.choice(range(20)) <= 3):
+                            celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
+                            fueguito.propagacion_fuego(x, y, nyC, nxC, celdas_vecinas_fuego, nuevo_estado)
 
                     if estado_juego[x, y] == 9:
                         if len(personas) > 0:
@@ -140,17 +142,20 @@ def main():
                                         nuevo_estado, celdas_vecinas)
                                     print(person.ide, person.x, person.y)
                                     if person.muerto == True:
-                                        print("muerto")
                                         personas.remove(person)
                                         muertos += 1
                                     elif person.salvado == True:
-                                        print("salvado")
                                         personas.remove(person)
                                         salvados += 1
-                                    elif person.herido == True:
-                                        print("herido")
-                                        heridos += 1
-
+                                    elif person.herido == True and person.herido2 == False:
+                                        heridos += 1                                         
+                                        person.herido2 = True 
+                                        person.herido = False
+                                    # Si toca el fuego más de una vez muere
+                                    elif person.herido == True and person.herido2 == True:
+                                        personas.remove(person) 
+                                        muertos += 1
+                                      
                             mover = False
                         else:
                             break

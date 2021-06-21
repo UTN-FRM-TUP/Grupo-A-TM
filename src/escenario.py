@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """ Modulo de funciones para el manejo del escenario """
 
 import numpy as np

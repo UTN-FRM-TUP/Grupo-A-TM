@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """ Este modulo gestiona el comportamiento del fuego """
 
 import time

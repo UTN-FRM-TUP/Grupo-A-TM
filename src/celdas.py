@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """ Este módulo contiene la funcion que analiza las celdas contiguas """
 
 #Almacena el valor de las celdas vecinas

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """ Este módulo contiene todas las funciones que realizan el movimiento """
 
 # Devuelve la direccion que no debe volver a tomar

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import pygame
 from pygame.locals import QUIT
 import numpy as np
@@ -37,7 +40,7 @@ pygame.display.set_caption(nombre_archivo())
 
 
 def main():
-    # Inicia todos los módulos importados
+    # Inicia pygame
     pygame.init()
 
     # Variable bandera para pausar la simulacion

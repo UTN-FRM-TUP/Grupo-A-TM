@@ -5,11 +5,12 @@
 
 import time
 from celdas import evalua_celda_vecina
+from main_app import extintores
 
 class Fuego():
 
     def __init__(self):
-        extintores = False
+        self.contra_incendios = extintores
         self.propagacion = 0.5
 
     def propagacion_fuego(self, x, y, celdasy, celdasx, celdas_vecinas_fuego, nuevo_estado):

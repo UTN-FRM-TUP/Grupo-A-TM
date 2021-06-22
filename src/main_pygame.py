@@ -5,7 +5,8 @@ import pygame
 from pygame.locals import QUIT
 import numpy as np
 import sys
-from escenario import escenario, cantidad_celdas, nombre_archivo
+# from escenario import escenario, cantidad_celdas, nombre_archivo
+from escenario import Escenario
 import time
 import random
 from persona import Persona
@@ -14,6 +15,11 @@ from fuego import Fuego
 
 
 # Configuración de valores iniciales
+
+ruta_archivo = 'Grupo-A-TM/src/path.txt'
+
+archivo = open(ruta_archivo, "r")
+
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 AZUL = (0, 0, 255)
@@ -26,7 +32,10 @@ DIMENSION_CELDA = 20
 
 
 # Tamaño de la matriz
-nxC, nyC = cantidad_celdas()
+plano = Escenario()
+plano.archivo = archivo.read()
+print("SOS: ", plano.archivo)
+nxC, nyC = plano.cantidad_celdas()
 
 # Establece el ancho y alto de la pantalla
 ancho_pantalla = nxC * DIMENSION_CELDA
@@ -36,7 +45,7 @@ screen = pygame.display.set_mode((ancho_pantalla, alto_pantalla))
 
 screen.fill(COLOR_FONDO)
 
-pygame.display.set_caption(nombre_archivo())
+pygame.display.set_caption(plano.nombre_archivo())
 
 
 def main():
@@ -47,7 +56,7 @@ def main():
     pauseExect = False
 
     # Crea el estado del juego a partir del archivo provisto por el usuario
-    estado_juego = escenario()
+    estado_juego = plano.escenario()
 
     # Contadores de estado de las personas
     muertos = 0
@@ -66,6 +75,7 @@ def main():
                 ide += 1
 
     fueguito = Fuego()
+    propagacion = 100
 
     # -------- Loop principal -----------
     while True:
@@ -132,9 +142,22 @@ def main():
 
                     if estado_juego[x, y] == 7:
                         # Controla que el movimiento del fuego sea menor
-                        if (random.choice(range(20)) <= 3):
-                            celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
-                            fueguito.propagacion_fuego(x, y, nyC, nxC, celdas_vecinas_fuego, nuevo_estado)
+                        if fueguito.contra_incendios and propagacion > 20:
+                            if (random.choice(range(20)) <= 4):
+                                celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
+                                fueguito.propagacion_fuego(x, y, nyC, nxC, celdas_vecinas_fuego, nuevo_estado)
+                                propagacion -= 1
+                        elif fueguito.contra_incendios and propagacion <= 20 and propagacion > 0:
+                            if (random.choice(range(20)) <= 1):
+                                    celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
+                                    fueguito.propagacion_fuego(x, y, nyC, nxC, celdas_vecinas_fuego, nuevo_estado)
+                                    propagacion -= 1
+                        elif fueguito.contra_incendios and propagacion <= 0:
+                            propagacion = 0
+                        else:
+                            if (random.choice(range(20)) <= 4):
+                                celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
+                                fueguito.propagacion_fuego(x, y, nyC, nxC, celdas_vecinas_fuego, nuevo_estado)
 
                     if estado_juego[x, y] == 9:
                         if len(personas) > 0:
@@ -163,11 +186,13 @@ def main():
                         else:
                             break
 
+
         estado_juego = np.copy(nuevo_estado)
 
         # Recarga la pantalla
-        pygame.display.flip()
-
+        if len(personas) > 0:
+            pygame.display.flip()
+    
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,3 @@
+Salvados ilesos: 1
+Salvados heridos: 0
+Muertos: 1

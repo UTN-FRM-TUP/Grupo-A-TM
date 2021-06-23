@@ -3,6 +3,7 @@
 
 import sys
 import subprocess
+import os
 from PyQt5.QtWidgets import QApplication
 import numpy as np
 from vista import Vista
@@ -18,16 +19,20 @@ cantidad_salvados = 0
 cantidad_heridos = 0
 extintores = False
 
+# Obtiene la ruta del directorio donde se encuentra y la suma a la relativagit status
+directorio = os.path.dirname(__file__)
+simulacion = os.path.join(directorio, 'main_pygame.py')
+
 # Establece rutas para archivos de persistencia
-archivo_ruta = 'Grupo-A-TM/src/path.txt'
-archivo_extintores = 'Grupo-A-TM/src/extintores.txt'
-archivo_informe = 'Grupo-A-TM/src/informe.txt'
+archivo_ruta = os.path.join(directorio, 'path.txt')
+archivo_extintores = os.path.join(directorio, 'extintores.txt')
+archivo_informe = os.path.join(directorio, 'informe.txt')
 
 
 def abrirSimulacion():
     """ Inicia la simulacion llamando a pygame """
     borrar_informe(archivo_informe)
-    subprocess.call("Grupo-A-TM/src/main_pygame.py")
+    subprocess.call(simulacion)
 
 def contraIncendios(archivo):
     """ Guarda el valor True cuando está activo el sistema contra incendios """

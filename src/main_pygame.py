@@ -4,6 +4,7 @@
 import pygame
 from pygame.locals import QUIT
 import numpy as np
+import os
 import sys
 from escenario import Escenario
 import time
@@ -19,19 +20,22 @@ plano = Escenario()
 # Crea una instancia de fuego
 fueguito = Fuego()
 
+directorio = os.path.dirname(__file__)
+
 # Obtiene ruta de la matriz cargada por el usuario
-ruta_archivo = 'Grupo-A-TM/src/path.txt'
+ruta_archivo = os.path.join(directorio, 'path.txt')
+
     # Abre archivo - Ejecuta - Cierra
 with open(ruta_archivo, "r") as archivo:  
     plano.archivo = archivo.read()
 
 # Obtiene lo indicado por el usuario sobre el sistema contra incendios
-archivo_extintores = 'Grupo-A-TM/src/extintores.txt'
+archivo_extintores = os.path.join(directorio, 'extintores.txt')
 with open(archivo_extintores, "r") as extintores:
     fueguito.contra_incendios = bool(extintores.read())
 
 # Almacena la ruta al archivo de informes
-archivo_informe = 'Grupo-A-TM/src/informe.txt'
+archivo_informe = os.path.join(directorio, 'informe.txt')
 
 # Configuración de valores iniciales
 NEGRO = (0, 0, 0)

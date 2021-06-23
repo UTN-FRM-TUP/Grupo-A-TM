@@ -10,6 +10,7 @@ class Persona():
 
     def __init__(self, ide, estado, x, y):
         self.ide = ide
+
         # Atributos de posicion
         self.estado = estado
         self.x = x
@@ -56,17 +57,19 @@ class Persona():
             # Pared
             elif celdas_vecinas[direccion] == 1:
                 continue
+
             # Fuego
             elif celdas_vecinas[direccion] == 7 or celdas_vecinas[direccion] == 8:
                 self.herido = True
                 continue
+
             # Personas
             elif celdas_vecinas[direccion] == 9:
                 continue
 
         # Se ejecuta cuando está dentro de un camino de emergencia
         if len(camino) > 0 and movimiento == False:
-            # No elimine elementos de listas con un solo elemento
+            # No elimina elementos de listas con un solo elemento
             if len(camino) > 1:
                 for direccion in camino:
                     if direccion == volver(self.direccion_anterior): #
@@ -82,6 +85,7 @@ class Persona():
                 self.guardar_dirección_anterior(direccion_entre_cincos)
                 self.eleccion(direccion_entre_cincos, nuevo_estado)
 
+            # Vacía la lista antes de cada iteración
             camino.clear()
 
         # Si no es un camino de emergencia
@@ -98,7 +102,7 @@ class Persona():
                     direccion_entre_ceros = celdas_validas[0]
             # En el resto de los movimientos
             else:
-                # No elimine elementos de listas con un solo elemento
+                # No elimina elementos de listas con un solo elemento
                 if len(celdas_validas) > 1:                     
                    for direccion in celdas_validas:
                         if direccion == volver(self.direccion_anterior):
@@ -114,35 +118,40 @@ class Persona():
                 self.guardar_dirección_anterior(direccion_entre_ceros)
                 self.eleccion(direccion_entre_ceros, nuevo_estado)
 
+        # Vacía la lista antes de cada iteración
         celdas_validas.clear()
 
     def salida(self, nuevo_estado, direccion):
+        """ Indica el movimiento al encontrar una salida """
+        # Se mueve a la izquierda
         if direccion == "izquierda":
-            # Se mueve a la izquierda
             if self.valor_anterior == 0:
                 nuevo_estado[self.x, self.y-1] = 0
             elif self.valor_anterior == 5:
                 nuevo_estado[self.x, self.y-1] = 5
             self.eleccion(direccion, nuevo_estado)
             self.salvado = True
+
+        # Se mueve a la derecha
         elif direccion == "derecha":
-            # Se mueve a la derecha
             if self.valor_anterior == 0:
                 nuevo_estado[self.x, self.y+1] = 0
             elif self.valor_anterior == 5:
                 nuevo_estado[self.x, self.y+1] = 5
             self.eleccion(direccion, nuevo_estado)
             self.salvado = True
+            
+        # Se mueve hacia arriba
         elif direccion == "arriba":
-            # Se mueve hacia arriba
             if self.valor_anterior == 0: 
                 nuevo_estado[self.x-1, self.y] = 0
             elif self.valor_anterior == 5:
                 nuevo_estado[self.x-1, self.y] = 5
             self.eleccion(direccion, nuevo_estado)
             self.salvado = True
+        
+        # Se mueve hacia abajo
         elif direccion == "abajo":
-            # Se mueve hacia abajo
             if self.valor_anterior == 0:
                 nuevo_estado[self.x+1, self.y] = 0
             elif self.valor_anterior == 5:
@@ -151,32 +160,37 @@ class Persona():
             self.salvado = True
 
     def ingreso_camino_emergencia(self, nuevo_estado, direccion):
+        """ Controla el movimiento al ingresar a un camino de emergencia """
+        # Se mueve a la izquierda
         if direccion == "izquierda":
-            # Se mueve a la izquierda
             nuevo_estado[self.x, self.y] = 0
             nuevo_estado[self.x, self.y-1] = 9
             self.actualizar_posicion(self.x, self.y-1)
             self.direccion_anterior = "izquierda"
+
+        # Se mueve a la derecha
         elif direccion == "derecha":
-            # Se mueve a la derecha
             nuevo_estado[self.x, self.y] = 0
             nuevo_estado[self.x, self.y+1] = 9
             self.actualizar_posicion(self.x, self.y+1)
             self.direccion_anterior = "derecha"
-        elif direccion == "arriba":           
-            # Se mueve hacia arriba
+
+        # Se mueve hacia arriba
+        elif direccion == "arriba":
             nuevo_estado[self.x, self.y] = 0
             nuevo_estado[self.x-1, self.y] = 9
             self.actualizar_posicion(self.x-1, self.y)
             self.direccion_anterior = "arriba"
-        elif direccion == "abajo":            
-            # Se mueve hacia abajo
+
+        # Se mueve hacia abajo
+        elif direccion == "abajo":
             nuevo_estado[self.x, self.y] = 0
             nuevo_estado[self.x+1, self.y] = 9
             self.actualizar_posicion(self.x+1, self.y)
             self.direccion_anterior = "abajo"
 
     def guardar_dirección_anterior(self, direccion):
+        """ Almacena la última dirección elegida"""
         self.direccion_anterior = direccion
 
     # LLama al método que realiza el movimiento de acuerdo a la dirección
@@ -195,7 +209,8 @@ class Persona():
             self.valor_anterior = abajo(self.x, self.y, nuevo_estado, self.valor_anterior)  
             self.actualizar_posicion(self.x+1, self.y)
 
-    def actualizar_posicion(self, x, y):  
+    def actualizar_posicion(self, x, y):
+        """ Actualiza los valores de la posición después de moverse """
         self.x = x
         self.y = y
     

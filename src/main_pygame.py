@@ -5,7 +5,6 @@ import pygame
 from pygame.locals import QUIT
 import numpy as np
 import sys
-# from escenario import escenario, cantidad_celdas, nombre_archivo
 from escenario import Escenario
 import time
 import random
@@ -14,12 +13,27 @@ from celdas import evalua_celda_vecina
 from fuego import Fuego
 
 
-# Configuración de valores iniciales
+# Crea una instancia de escenario
+plano = Escenario()
 
+# Crea una instancia de fuego
+fueguito = Fuego()
+
+# Obtiene ruta de la matriz cargada por el usuario
 ruta_archivo = 'Grupo-A-TM/src/path.txt'
+    # Abre archivo - Ejecuta - Cierra
+with open(ruta_archivo, "r") as archivo:  
+    plano.archivo = archivo.read()
 
-archivo = open(ruta_archivo, "r")
+# Obtiene lo indicado por el usuario sobre el sistema contra incendios
+archivo_extintores = 'Grupo-A-TM/src/extintores.txt'
+with open(archivo_extintores, "r") as extintores:
+    fueguito.contra_incendios = bool(extintores.read())
 
+# Almacena la ruta al archivo de informes
+archivo_informe = 'Grupo-A-TM/src/informe.txt'
+
+# Configuración de valores iniciales
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 AZUL = (0, 0, 255)
@@ -32,9 +46,6 @@ DIMENSION_CELDA = 20
 
 
 # Tamaño de la matriz
-plano = Escenario()
-plano.archivo = archivo.read()
-print("SOS: ", plano.archivo)
 nxC, nyC = plano.cantidad_celdas()
 
 # Establece el ancho y alto de la pantalla
@@ -43,17 +54,23 @@ alto_pantalla = nyC * DIMENSION_CELDA
 
 screen = pygame.display.set_mode((ancho_pantalla, alto_pantalla))
 
+# Color de fondo de la pantalla
 screen.fill(COLOR_FONDO)
 
+# Establece el nombre de la pantalla según el nombre del archivo
 pygame.display.set_caption(plano.nombre_archivo())
 
 
 def main():
+
     # Inicia pygame
     pygame.init()
 
     # Variable bandera para pausar la simulacion
     pauseExect = False
+
+    # Variable bandera para finalizar la simulacion
+    Terminar = 0
 
     # Crea el estado del juego a partir del archivo provisto por el usuario
     estado_juego = plano.escenario()
@@ -63,25 +80,26 @@ def main():
     heridos = 0
     salvados = 0
 
-    # Crea una lista con las posicines de las personas
+    # Crea una lista con las posiciones de las personas
     personas = []
 
-    # Recorre la matriz y crea una persona en la posición corespondiente
+    # Recorre la matriz y crea una persona en la posición correspondiente (9)
     ide = 0
     for y in range(0, nxC):
         for x in range(0, nyC):
             if estado_juego[x, y] == 9:
                 personas.append(Persona(ide, estado_juego, x, y))
                 ide += 1
-
-    fueguito = Fuego()
+    
+    # Establece un valor inicial de propagación que disminuye en cada iteración
+    # si se cuenta con sistema contra incendios
     propagacion = 100
 
     # -------- Loop principal -----------
     while True:
 
         # Disminuye velocidad
-        time.sleep(0.5)
+        time.sleep(0.3)
 
         # Crea un nuevo estado sobre el que se producen las modificaciones
         nuevo_estado = np.copy(estado_juego)
@@ -97,11 +115,19 @@ def main():
             if event.type == pygame.KEYDOWN:
                 pauseExect = not pauseExect
 
-            # Cierrra la simulacion si se cierra la ventana
+            # Cierra la simulacion si se cierra la ventana
             if event.type == QUIT:
+                # Guarda el estado de las personas al cerrar la simulacion
+                with open(archivo_informe, "a") as informe:
+                    informe.write(f'Salvados ilesos: {salvados}')
+                    informe.write('\n')
+                    informe.write(f'Salvados heridos: {heridos}')
+                    informe.write('\n')
+                    informe.write(f'Muertos: {muertos}')
                 pygame.quit()
                 sys.exit()
 
+        # Variable bandera para controlar el movimiento
         mover = True
 
         # Recorre la matriz
@@ -116,11 +142,11 @@ def main():
                         ((y+1) * DIMENSION_CELDA, (
                             (x) * DIMENSION_CELDA))]
 
-                # Dibuja cada elemento
+                # Dibuja cada elemento según el número
                 if estado_juego[x, y] == 0:
                     pygame.draw.polygon(screen, (40, 40, 40), poly, 1)
                 elif estado_juego[x, y] == 2:
-                    pygame.draw.polygon(screen, (AZUL), poly, 0)
+                    pygame.draw.polygon(screen, (40, 40, 40), poly, 0)
                 elif estado_juego[x, y] == 5:
                     pygame.draw.polygon(screen, (VERDE), poly, 0)
                 elif estado_juego[x, y] == 6:
@@ -131,34 +157,44 @@ def main():
                     pygame.draw.polygon(screen, (ROJO), poly, 0)
                 elif estado_juego[x, y] == 9:
                     pygame.draw.polygon(screen, (0, 255, 255), poly, 0)
-                else:
+                elif estado_juego[x, y] == 1:
                     pygame.draw.polygon(screen, (BLANCO), poly, 0)
+                else:
+                    pygame.draw.polygon(screen, (40, 40, 40), poly, 0)
 
-                # Movimiento de las personas
+                # Movimientos
+
                 celdas_vecinas = {}
                 celdas_vecinas_fuego = {}
 
                 if not pauseExect:
 
+                    # Propagación del fuego
                     if estado_juego[x, y] == 7:
-                        # Controla que el movimiento del fuego sea menor
+
+                        # Controla que disminuya la propagacion del fuego hasta detenerse 
+                        # si hay sistema contra incendios
                         if fueguito.contra_incendios and propagacion > 20:
                             if (random.choice(range(20)) <= 4):
                                 celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
-                                fueguito.propagacion_fuego(x, y, nyC, nxC, celdas_vecinas_fuego, nuevo_estado)
+                                fueguito.propagacion_fuego(x, y, nxC, nyC, celdas_vecinas_fuego, nuevo_estado)
                                 propagacion -= 1
                         elif fueguito.contra_incendios and propagacion <= 20 and propagacion > 0:
                             if (random.choice(range(20)) <= 1):
                                     celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
-                                    fueguito.propagacion_fuego(x, y, nyC, nxC, celdas_vecinas_fuego, nuevo_estado)
+                                    fueguito.propagacion_fuego(x, y, nxC, nyC, celdas_vecinas_fuego, nuevo_estado)
                                     propagacion -= 1
+                        # Detiene la propagacion
                         elif fueguito.contra_incendios and propagacion <= 0:
                             propagacion = 0
+
+                        # Propagación del fuego constante sin sistema contra incendios
                         else:
                             if (random.choice(range(20)) <= 4):
                                 celdas_vecinas_fuego = evalua_celda_vecina(x, y, nuevo_estado)
-                                fueguito.propagacion_fuego(x, y, nyC, nxC, celdas_vecinas_fuego, nuevo_estado)
+                                fueguito.propagacion_fuego(x, y, nxC, nyC, celdas_vecinas_fuego, nuevo_estado)
 
+                    # Movimiento de las personas
                     if estado_juego[x, y] == 9:
                         if len(personas) > 0:
                             if mover:
@@ -166,32 +202,61 @@ def main():
                                     celdas_vecinas = evalua_celda_vecina(person.x, person.y, nuevo_estado)
                                     person.elegir_direccion(
                                         nuevo_estado, celdas_vecinas)
-                                    print(person.ide, person.x, person.y)
+
+                                    # Si muere
                                     if person.muerto == True:
                                         personas.remove(person)
                                         muertos += 1
-                                    elif person.salvado == True:
+                                        
+                                    # Si nunca toca el fuego y se salva
+                                    elif person.salvado == True and person.herido2 == False:
                                         personas.remove(person)
-                                        salvados += 1
+                                        salvados += 1 #Salvado ileso
+                                        
+                                    # Si se salvo y se quemo 1 vez
+                                    elif person.salvado == True and person.herido2 == True:
+                                        personas.remove(person) 
+                                        heridos += 1 #Salvado herido
+
+                                    # Si toca el fuego una vez (no muere)
                                     elif person.herido == True and person.herido2 == False:
-                                        heridos += 1                                         
                                         person.herido2 = True 
                                         person.herido = False
-                                    # Si toca el fuego más de una vez muere
+
+                                    # Si toca el fuego más de una vez muere(muere y se elimina la persona de la lista)
                                     elif person.herido == True and person.herido2 == True:
                                         personas.remove(person) 
                                         muertos += 1
                                       
                             mover = False
-                        else:
-                            break
+                            
+        # Si todas las personas mueren o evacuan
+        if (len(personas) == 0):
+            # Borra archivo que controla extintores
+            with open(archivo_extintores, "w") as extintores:
+                extintores.write('')
+            
+            Terminar += 1
+            if Terminar == 6:
 
+                # Guarda el estado de las personas al finalizar la simulacion
+                with open(archivo_informe, "a") as informe:
+                    informe.write(f'Salvados ilesos: {salvados}')
+                    informe.write('\n')
+                    informe.write(f'Salvados heridos: {heridos}')
+                    informe.write('\n')
+                    informe.write(f'Muertos: {muertos}')
+                
+                time.sleep(1)
+                break               
 
+        # Copia las modificaciones al estado general
         estado_juego = np.copy(nuevo_estado)
 
         # Recarga la pantalla
-        if len(personas) > 0:
-            pygame.display.flip()
+        pygame.display.flip()
+
+           
     
 
 if __name__ == '__main__':

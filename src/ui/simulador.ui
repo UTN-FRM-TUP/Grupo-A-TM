@@ -6,19 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>835</width>
-    <height>725</height>
+    <width>653</width>
+    <height>544</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Simulador de incendio</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <family>Ubuntu</family>
+    </font>
+   </property>
    <widget class="QPushButton" name="botonIniciar">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>470</y>
+      <x>390</x>
+      <y>320</y>
       <width>191</width>
       <height>61</height>
      </rect>
@@ -31,6 +42,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Ubuntu</family>
       <pointsize>17</pointsize>
      </font>
     </property>
@@ -38,46 +50,18 @@
      <string>Iniciar simulación</string>
     </property>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>390</y>
-      <width>258</width>
-      <height>216</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>INFORME DE RESULTADOS</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTextEdit" name="informeResultados">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>20</y>
+      <x>190</x>
+      <y>10</y>
       <width>223</width>
       <height>45</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <family>Ubuntu</family>
       <pointsize>30</pointsize>
      </font>
     </property>
@@ -91,8 +75,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>167</x>
-      <y>87</y>
+      <x>58</x>
+      <y>74</y>
       <width>494</width>
       <height>29</height>
      </rect>
@@ -102,6 +86,7 @@
       <widget class="QLabel" name="etiquetaRuta">
        <property name="font">
         <font>
+         <family>Ubuntu</family>
          <pointsize>15</pointsize>
         </font>
        </property>
@@ -138,10 +123,10 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>250</y>
-      <width>380</width>
-      <height>25</height>
+      <x>90</x>
+      <y>180</y>
+      <width>425</width>
+      <height>29</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -149,6 +134,7 @@
       <widget class="QLabel" name="etiquetaExtintor">
        <property name="font">
         <font>
+         <family>Ubuntu</family>
          <pointsize>15</pointsize>
         </font>
        </property>
@@ -182,8 +168,8 @@
    <widget class="QLineEdit" name="rutaArchivo">
     <property name="geometry">
      <rect>
-      <x>269</x>
-      <y>133</y>
+      <x>160</x>
+      <y>120</y>
       <width>280</width>
       <height>30</height>
      </rect>
@@ -207,13 +193,72 @@
      <string>Ruta</string>
     </property>
    </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>230</y>
+      <width>258</width>
+      <height>255</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <family>Ubuntu</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>INFORME DE RESULTADOS</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="informeResultados">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Fira Code</family>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="mostrarResultados">
+       <property name="text">
+        <string>Mostrar resultados</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>835</width>
+     <width>653</width>
      <height>31</height>
     </rect>
    </property>

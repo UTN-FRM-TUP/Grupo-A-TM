@@ -13,12 +13,5 @@ class Vista(QMainWindow, Ui_Simulador):
 
         super().__init__(parent)
         self.setupUi(self)
-        """ self.ruta = '2222'
-
-
-    def buscarRutaArchivo(self):
-        archivo = QFileDialog.getOpenFileName(self, 'Abrir archivo', '/home')
-        self.ruta = archivo[0]
-        print('ruta de objeto vista:', self.ruta) """
         
     
